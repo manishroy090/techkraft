@@ -35,6 +35,19 @@
  - Backend on  8000
  - Frontend on 5173
 
+
+ # How to run this project (using docker)
+   - docker compose build
+   - docker compose up
+
+ # How to run this project
+    #  Backend 
+    - python3 venv venv on root folder of backend 
+    - pip install -r requirements.txt
+
+    # npm i 
+    # npm run dev
+
  
 ##  please wait will update the read me soon 
 
