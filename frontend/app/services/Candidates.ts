@@ -1,7 +1,13 @@
 import { Axios } from "@/libs/axios";
 
-export const getCandidates = async () => {
-  const result = Axios.get("candidates/")
+export const getCandidates = async (filterdata) => {
+  console.log("filterdata",filterdata)
+  
+  const result = Axios.get("candidates/",{
+    params:{
+       ...filterdata
+    }
+  })
     .then((res) => {
       return res.data;
     })
@@ -31,7 +37,7 @@ export const getAiSummaryResult = async (id,onMessage:(data:any)=>void) => {
     {
       onDownloadProgress: (progressEvent) => {
         const response = progressEvent.event.target.response;
-        let message =null;
+        let message ="";
         const events = response.split("\r\n");
         const filterevent = events.filter((item)=>item!='data: connected' && item!='event: info' && item!='retry: 10000' && item!='')
         if(filterevent.length>0){

@@ -14,6 +14,7 @@ const page = () => {
   const params = useParams();
   const { id } = params;
   const [message, setMessage] = useState();
+  const [loading ,setLoading] = useState(true);
 
   const {
     register,
@@ -23,6 +24,10 @@ const page = () => {
   useEffect(() => {
     const getAiSummary = async () => {
       const result = await getAiSummaryResult(id, (data) => {
+        if(data){
+          setLoading(false)
+          
+        }
         setMessage((prev) => prev + data.message);
       })
         .then((res) => {
@@ -53,8 +58,10 @@ const page = () => {
 
 
   return (
-    <div className="flex flex-col space-y-10">
-      <div className="h-96 bg-border border-black border overflow-y-scroll p-8">
+    <div className="flex flex-col space-y-10 p-32  h-full">
+
+      {loading ? <span className="font-semibold text-xl">Loading...</span> : ""}
+      <div className="h-9/10 bg-border border-black border overflow-y-scroll p-8">
         <span style={{ whiteSpace: "pre-wrap" }}>{message}</span>
       </div>
       {/* <form onSubmit={handleSubmit(generateAiSummary,onError)} className="hidden">

@@ -24,7 +24,7 @@ export async function login(loginCredential: any) {
 //   return AuthUser;
 // }
 
-// export async function logout() {
-//   const { data } = await Axios.post("auth/logout");
-//   return data.success;
-// }
+export async function logout() {
+  const { data } = await Axios.post("auth/logout");
+  return data.message;
+}

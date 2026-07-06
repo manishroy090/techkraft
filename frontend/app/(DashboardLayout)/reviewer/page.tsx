@@ -38,7 +38,7 @@ const page = () => {
   
   return (
     <>
-      <div className="w-full flex flex-col space-y-10">
+      <div className="w-full flex flex-col space-y-10 p-32">
       <div className="flex justify-between">
         <span className="font-semibold">Profile Details</span>
         <a href={`/summary/${reviewerId}`}>

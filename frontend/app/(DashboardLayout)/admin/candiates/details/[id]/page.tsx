@@ -32,7 +32,7 @@ const page = () => {
     <div className="w-full flex flex-col space-y-10">
       <div className="flex justify-between">
         <span className="font-semibold">Profile Details</span>
-        <a href={`/admin/candiates/summary/${id}`}>
+        <a href={`/summary/${id}`}>
 
         <button className="bg-black text-white p-2 rounded">Generate AI Summary</button>
         </a>

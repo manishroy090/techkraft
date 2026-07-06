@@ -21,11 +21,9 @@ export default function Layout({
     <div className="h-screen w-screen overflow-hidden bg-gray-100">
     
 
-        {/* ================= HEADER ================= */}
           <Header />
 
-        {/* ================= PAGE CONTENT ================= */}
-        <main className="">
+        <main className="h-full">
           {children}
         
         </main>

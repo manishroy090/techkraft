@@ -7,6 +7,7 @@ import * as profileData from './data'
 import SimpleBar from 'simplebar-react'
 import { Button } from '@components/medinexus/button'
 import { useRouter } from 'next/navigation'
+import {logout} from "@services/Auth"
 
 import {
   DropdownMenu,
@@ -18,15 +19,15 @@ import {
 
 const Profile = () => {
 
-  // const router = useRouter();
+   const router = useRouter();
 
-  // const logoutUser =async( ) =>{
-  //   const log =   await logout();
-  //   if(log){
+  const logoutUser =async( ) =>{
+    const log =   await logout();
+    if(log){
        
-  //     router.push("/auth/login");
-  //   }
-  // }
+      router.push("/auth/login");
+    }
+  }
 
 
   return (
@@ -70,7 +71,7 @@ const Profile = () => {
           <DropdownMenuSeparator className='my-2' />
 
           <div className='px-4'>
-            <Button variant='outline' asChild className='w-full rounded-md' >
+            <Button variant='outline' asChild className='w-full rounded-md'  onClick={logoutUser}>
               <div>Logout</div>
             </Button>
           </div>

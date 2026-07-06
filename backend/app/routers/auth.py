@@ -73,4 +73,10 @@ async def registration(user:Registration,db:SessionDep):
      return {"user":user ,"token":token}
     except Exception as error:
      raise  HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,detail=str(error))
+ 
+   
+@router.post("/logout")
+async def logout(response:Response):
+  response.delete_cookie(key="token")
+  return {"message": "Logged out successfully"}
 

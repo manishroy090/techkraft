@@ -44,12 +44,7 @@ const Header = () => {
             <div className="flex flex-col leading-tight">
 
               <span className="text-sm font-semibold text-gray-900 tracking-wide">
-                Medinexus Healthcare
-              </span>
-
-              <span className="text-[11px] text-gray-500 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                Secure • Whitelisted • Live System
+                Scoring System
               </span>
 
             </div>
