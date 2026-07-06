@@ -32,7 +32,7 @@ security_scheme = HTTPBearer()
 
 
 #  this middleware is use for verify jwt token
-async def verify_token(id:int,credentials: Annotated[HTTPAuthorizationCredentials, Depends(security_scheme)],db:SessionDep,request: Request):
+async def verify_token(credentials: Annotated[HTTPAuthorizationCredentials, Depends(security_scheme)],db:SessionDep,request: Request):
     token = credentials.credentials
     if not token:
        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Unauthorized")
@@ -64,7 +64,7 @@ async def reviewer(id:int,credentials: Annotated[HTTPAuthorizationCredentials, D
 
 
 @router.get("/")
-async def get_candidates(db:SessionDep,authUser: Annotated[str, Depends(verify_token)],filter:FilteRequest =Query()):
+async def get_candidates(db:SessionDep,credentials: Annotated[str, Depends(verify_token)],filter:FilteRequest =Query()):
    satement = (select(Candidate,User).join(User,Candidate.user_id == User.id))
    if filter.status :
       satement= satement.where(Candidate.status==filter.status)
