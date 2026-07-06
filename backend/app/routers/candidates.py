@@ -64,7 +64,7 @@ async def reviewer(id:int,credentials: Annotated[HTTPAuthorizationCredentials, D
 
 
 @router.get("/")
-async def get_candidates(db:SessionDep,filter:FilteRequest =Query()):
+async def get_candidates(db:SessionDep,filter:FilteRequest =Query(),authUser: Annotated[str, Depends(verify_token)]):
    satement = (select(Candidate,User).join(User,Candidate.user_id == User.id))
    if filter.status :
       satement= satement.where(Candidate.status==filter.status)
