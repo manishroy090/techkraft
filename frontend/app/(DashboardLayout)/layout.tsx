@@ -25,7 +25,7 @@ export default function Layout({
           <Header />
 
         {/* ================= PAGE CONTENT ================= */}
-        <main className=" p-20">
+        <main className="">
           {children}
         
         </main>

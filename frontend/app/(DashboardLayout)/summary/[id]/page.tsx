@@ -33,22 +33,22 @@ const page = () => {
         });
     };
 
-    // getAiSummary();
+     getAiSummary();
   }, []);
 
 
 
-  const generateAiSummary = (data) =>{
-    console.log("data",data);
-  }
+  // const generateAiSummary = (data) =>{
+  //   console.log("data",data);
+  // }
 
 
 
-  const onError = () =>{
+  // const onError = () =>{
 
-    console.log("onError")
+  //   console.log("onError")
 
-  }
+  // }
 
 
 
@@ -57,7 +57,7 @@ const page = () => {
       <div className="h-96 bg-border border-black border overflow-y-scroll p-8">
         <span style={{ whiteSpace: "pre-wrap" }}>{message}</span>
       </div>
-      <form onSubmit={handleSubmit(generateAiSummary,onError)} className="hidden">
+      {/* <form onSubmit={handleSubmit(generateAiSummary,onError)} className="hidden">
         <textarea
           {...register("usercontent")}
           placeholder="type here"
@@ -69,7 +69,7 @@ const page = () => {
         <button  className="bg-black w-fit text-white p-4 rounded mt-10 hidden">
           Generate Summary
         </button>
-     </form>
+     </form> */}
     </div>
   );
 };
