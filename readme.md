@@ -8,8 +8,8 @@
 
 ###  Cookies Based Authentication  ####
 - Used server side cookies base authentication so the fontend and backend need to be on same domain . 
--i have used virtual host on my local.
--It help to prevent from xss and csrf
+- i have used virtual host on my local.
+- It help to prevent from xss and csrf
 
 
 
