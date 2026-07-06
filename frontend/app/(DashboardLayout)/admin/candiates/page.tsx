@@ -3,6 +3,7 @@ import { Eye } from "lucide-react";
 import { getCandidates } from "@services/Candidates";
 import { useEffect, useState } from "react";
 import Filter from "@/components/Filter";
+import { Icandidate } from "@/interface/Candidate";
 import {
   useForm,
   useFieldArray,
@@ -14,10 +15,9 @@ const page = () => {
   const { register, handleSubmit, reset } = useForm();
 
   const [candidates, setCandidate] = useState([]);
-  const [status, setStatus] = useState([]);
-  const [roleslist, setroleappliedlist] = useState([]);
-  const [skillslist, setSkill] = useState([]);
-  const [filterdata, setFilterData] = useState();
+  const [status, setStatus] = useState<string[]>([]);
+  const [roleslist, setroleappliedlist] = useState<string []>([]);
+  const [skillslist, setSkill] = useState<string []>([]);
   const [filterclear,setFilterclear] = useState(false);
 
   useEffect(() => {
@@ -30,13 +30,13 @@ const page = () => {
   }, [filterclear]);
 
   useEffect(() => {
-    const role_appliedData = candidates.map((item) => item.role_applied);
-    const statusData = candidates.map((item) => item.status);
+    const role_appliedData = candidates.map((item:Icandidate) => item.role_applied);
+    const statusData = candidates.map((item:Icandidate) => item.status);
     const roles_appliedList = [...new Set(role_appliedData)];
     const statusdList = [...new Set(statusData)];
-    const skillData = candidates.map((item) => item.skill);
+    const skillData = candidates.map((item:Icandidate) => item.skill);
     const skillsArray = skillData.map((item) => item);
-    const skills = skillsArray.map((item) => item[0]);
+    const skills = skillsArray.map((item:string[]) => item[0]);
     const skillsList = [...new Set(skills)];
 
     setStatus(statusdList);
@@ -44,7 +44,8 @@ const page = () => {
     setSkill(skillsList);
   }, [candidates]);
 
-  const applyFilter = async (data) => {
+  const applyFilter = async (data:any) => {
+    console.log("data",data)
     const filerData = Object.entries(data);
     const result = await getCandidates(data);
     setCandidate(result);

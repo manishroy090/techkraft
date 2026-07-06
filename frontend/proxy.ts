@@ -28,7 +28,9 @@ export function proxy(request: NextRequest) {
 
   }
 
-  const authUserRoute = rolesRouter[role];
+  type rolestypes = "admin" | "reviewer" ;
+
+  const authUserRoute = rolesRouter[role as rolestypes];
 
   const havePermission = authUserRoute.some(
     (prefix) => pathname === prefix || pathname.startsWith(prefix + "/"),

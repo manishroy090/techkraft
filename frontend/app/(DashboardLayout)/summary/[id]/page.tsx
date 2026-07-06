@@ -11,7 +11,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 
 const page = () => {
-  const params = useParams();
+  const params = useParams<{id:string}>();
   const { id } = params;
   const [message, setMessage] = useState();
   const [loading ,setLoading] = useState(true);

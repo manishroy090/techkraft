@@ -4,6 +4,8 @@
 import {useSelector} from "react-redux";
 import React, { useEffect ,useState} from "react";
 import { getCandidateDetails } from "@services/Candidates";
+import {ICandidaDetails} from "@/interface/Candidate"
+
 
 
 
@@ -11,22 +13,27 @@ import { getCandidateDetails } from "@services/Candidates";
 
 
 const page = () => {
-    const [candidateDetails, setCandidateDetails] = useState();
-    const [candidateScoreDetails, setCandidateScoreDetail] = useState();
+    const [candidateDetails, setCandidateDetails] = useState<any>();
+    const [candidateScoreDetails, setCandidateScoreDetail] = useState<ICandidaDetails[]>([]);
     const [reviewerId ,setReviewerId] = useState()
+    const {authUser} = useSelector((state:any)=>state.authuser)
 
-   const {authUser} = useSelector(state=>state.authuser)
+
+
 
    useEffect(()=>{
     setReviewerId(authUser.id)
-
    },[])
     
+
+
+
    useEffect(() => {
       const getCandidateDetail = async () => {
         const result = await getCandidateDetails(authUser?.id);
         setCandidateScoreDetail(result);
         const CandidateDetails = Object.entries(result[0]);
+        console.log("CandidateDetails",CandidateDetails)
         setCandidateDetails(CandidateDetails);
       };
   
@@ -48,7 +55,7 @@ const page = () => {
       </div>
 
       <table className="bg-slate-100 shadow-md w-full rounded border ">
-        {candidateDetails?.map((item) => (
+        {candidateDetails?.map((item:any) => (
           <tr className="border-gray-200 border-b">
             <td className="p-4 py-1 font-semibold text-sm  w-72">{item[0]}:</td>
             <td className="p-4 ">{item[1]}</td>

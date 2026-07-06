@@ -4,12 +4,13 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getCandidateDetails } from "@services/Candidates";
 import { useScroll } from "framer-motion";
+import {ICandidaDetails} from "@/interface/Candidate"
 
 const page = () => {
-  const params = useParams();
-  const [candidateDetails, setCandidateDetails] = useState();
-  const [candidateScoreDetails, setCandidateScoreDetail] = useState();
-        const { id } = params;
+  const params = useParams<{id:string}>();
+  const [candidateDetails, setCandidateDetails] = useState<any>();
+  const [candidateScoreDetails, setCandidateScoreDetail] = useState<ICandidaDetails[]>([]);
+  const { id } = params;
 
 
   useEffect(() => {
@@ -39,7 +40,7 @@ const page = () => {
       </div>
 
       <table className="bg-slate-100 shadow-md w-full rounded border ">
-        {candidateDetails?.map((item) => (
+        {candidateDetails?.map((item:any) => (
           <tr className="border-gray-200 border-b">
             <td className="p-4 py-1 font-semibold text-sm  w-72">{item[0]}:</td>
             <td className="p-4 ">{item[1]}</td>

@@ -11,8 +11,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from '@components/medinexus/dropdown-menu'
-import { Badge } from '@components/medinexus/badge'
-import { Button } from '@components/medinexus/button'
+
 
 const Notifications = () => {
   return (
@@ -33,7 +32,7 @@ const Notifications = () => {
           {/* Header */}
           <div className='flex items-center px-6 justify-between'>
             <h3 className='mb-0 text-lg font-semibold'>Notification</h3>
-            <Badge color={'primary'}>5 new</Badge>
+
           </div>
           {/* Scrollable content */}
           <SimpleBar className='max-h-80 mt-3'>
@@ -65,11 +64,7 @@ const Notifications = () => {
               </DropdownMenuItem>
             ))}
           </SimpleBar>
-          <div className='pt-5 px-6'>
-            <Button variant={'outline'} className='w-full'>
-              See All Notifications
-            </Button>
-          </div>
+         
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

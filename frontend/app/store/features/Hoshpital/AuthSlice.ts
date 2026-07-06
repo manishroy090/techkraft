@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { counterSlice } from "./counterSlice";
 
 export const AuthUserSlice = createSlice({
     name:'authuser',

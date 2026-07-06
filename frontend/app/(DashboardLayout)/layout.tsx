@@ -6,7 +6,6 @@ import Sidebar from "./layout/sidebar/Sidebar";
 // import { getMe } from "../services/Auth";
 import { useDispatch } from "react-redux";
 import { setAuthUser } from "../store/features/Hoshpital/AuthSlice";
-import AIBotUI from "../components/medinexus/AIBotUI";
 
 export default function Layout({
   children,

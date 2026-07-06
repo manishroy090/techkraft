@@ -7,6 +7,7 @@ from pwdlib import PasswordHash
 from auth import create_token,verify_password
 from sqlmodel import select
 import json
+from config import get_settings ,Settings
 
 
 

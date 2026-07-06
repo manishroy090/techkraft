@@ -10,13 +10,11 @@ from fastapi.security import (
 )
 from fastapi.responses import JSONResponse
 from typing import Annotated
+from config import get_settings,Settings
 
 
 
 
-SECRET_KEY = "84caf6135cd07b1fda5dd2067947afde243ad631d1caed9a62e0c329f59cc2b9"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 
 
@@ -33,8 +31,9 @@ async def get_password_hash(password):
 
 
 async def create_token(data):
+ settings =  Settings()  
  try:
-   token = jwt.encode(data, SECRET_KEY, algorithm=ALGORITHM)
+   token = jwt.encode(data,settings.SECRET_KEY, algorithm=settings.ALGORITHM)
    return token
  except Exception as error:
    raise  HTTPException(status_code=500,detail=str(error))
@@ -46,8 +45,9 @@ oauth2_scheme = OAuth2PasswordBearer(
 
 
 async def decodeToken(token):
+ settings =  Settings()  
  try:
-   token = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+   token = jwt.decode(token,settings.SECRET_KEY,algorithms=[settings.ALGORITHM])
    if token:
     return token
  except Exception as error:

@@ -1,21 +1,16 @@
 import os
 from ollama import Client
 from fastapi.responses import StreamingResponse
+from config import get_settings,Settings
 
-OLLAMA_API_KEY="a976094197904a95ada017c8b2ea12f0.0HKTva-Ay2vbTKELeSepncO1"
+
+
+settings =  Settings()  
 
 client = Client(
     host="https://ollama.com",
-    headers={'Authorization': 'Bearer ' + OLLAMA_API_KEY}
+    headers={'Authorization': 'Bearer ' + settings.OLLAMA_API_KEY}
 )
-
-
-# messages = [
-#   {
-#     'role': 'user',
-#     'content': 'Why is the sky blue?',
-#   },
-# ]
 
 async def generateSummary(data):
     in_thinking = False
