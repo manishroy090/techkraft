@@ -18,6 +18,16 @@ export function proxy(request: NextRequest) {
 
   const { role } = decodeToken(accessToken);
 
+  if(role =="admin" && pathname =="/"){
+    return NextResponse.redirect(new URL("/admin/candiates", request.url));
+
+  }
+
+  if(role =="reviewer" && pathname =="/"){
+    return NextResponse.redirect(new URL("/reviewer", request.url));
+
+  }
+
   const authUserRoute = rolesRouter[role];
 
   const havePermission = authUserRoute.some(
