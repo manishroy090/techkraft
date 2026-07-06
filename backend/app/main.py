@@ -1,12 +1,12 @@
 from fastapi import FastAPI,APIRouter,Request,Depends,HTTPException,Depends,status
 from typing import Annotated
-from database import lifespan
 from routers.auth import router as authrouter
 from routers.candidates import router as candidateRouter
 from fastapi.responses import JSONResponse
 from auth import decodeToken
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.middleware.cors import CORSMiddleware
+from database import lifespan
 
 
 
