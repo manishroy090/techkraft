@@ -8,6 +8,7 @@ services:
   container_name: newbackend
   ports: 
    - 8000-8000
+  
 
  sqlite: 
    image: suriya08/sqlite3:1.0.3

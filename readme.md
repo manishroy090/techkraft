@@ -1,0 +1,37 @@
+###   Used Stack  ####
+
+- FastApi
+- Next js
+- Type script
+- Docker
+
+
+###  Cookies Based Authentication  ####
+- Used server side cookies base authentication so the fontend and backend need to be on same domain . 
+-i have used virtual host on my local.
+-It help to prevent from xss and csrf
+
+
+
+
+##   Api Enpoints build ##
+
+- register
+- login
+- candidate details
+- submit score for other candidate
+- view own score as reviewer
+
+
+##  DataBase migrations
+ - candidates
+ - scores
+ - users
+
+
+ ##  Docker ###
+
+ 
+
+
+ 
