@@ -8,6 +8,15 @@ services:
   container_name: newbackend
   ports: 
    - 8000-8000
+
+ app:    
+  build:     
+    context: ./frontend     
+    dockerfile: dockerfile    
+  ports:     
+    - "3000:3000"   
+  volumes:      
+    - .:/app
   
 
  sqlite: 
