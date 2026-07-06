@@ -21,6 +21,7 @@
 - candidate details
 - submit score for other candidate
 - view own score as reviewer
+- LLM Summary  (using ollama)
 
 
 ##  DataBase migrations

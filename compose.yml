@@ -9,7 +9,7 @@ services:
   ports: 
    - 8000-8000
 
- app:    
+ frontend_app:    
   build:     
     context: ./frontend     
     dockerfile: dockerfile    

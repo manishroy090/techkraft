@@ -57,7 +57,7 @@ const page = () => {
       <div className="h-96 bg-border border-black border overflow-y-scroll p-8">
         <span style={{ whiteSpace: "pre-wrap" }}>{message}</span>
       </div>
-      <form onSubmit={handleSubmit(generateAiSummary,onError)}>
+      <form onSubmit={handleSubmit(generateAiSummary,onError)} className="hidden">
         <textarea
           {...register("usercontent")}
           placeholder="type here"
@@ -66,7 +66,7 @@ const page = () => {
             "mt-2 border-input placeholder:text-muted-foreground focus-visible:outline-0 focus-visible:border-primary aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
           }
         ></textarea>
-        <button  className="bg-black w-fit text-white p-4 rounded mt-10">
+        <button  className="bg-black w-fit text-white p-4 rounded mt-10 hidden">
           Generate Summary
         </button>
      </form>
