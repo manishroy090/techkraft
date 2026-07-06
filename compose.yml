@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+ app:
+  build:
+   context: ./backend
+   dockerfile: dockerfile
+  container_name: newbackend
+  ports: 
+   - 8000-8000
+
+ sqlite: 
+   image: suriya08/sqlite3:1.0.3
+   container_name: sqlite
+   volumes:
+    - ./data:/sqlite/data
+   ports : 
+     - "8191:8191"
+  
+   
+  
+ sqlitebrowser:
+    image: lscr.io/linuxserver/sqlitebrowser:latest
+    container_name: sqlitebrowser
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - /path/to/config:/config
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    shm_size: "1gb"
+    restart: unless-stopped
+
+volumes:
+  data:
+  
