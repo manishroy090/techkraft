@@ -32,6 +32,9 @@
 
  ##  Docker ###
 
+ - Backend on  8000
+ - Frontend on 5173
+
  
 
 
