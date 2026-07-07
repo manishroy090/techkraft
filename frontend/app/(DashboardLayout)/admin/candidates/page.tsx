@@ -14,7 +14,7 @@ import {
 const page = () => {
   const { register, handleSubmit, reset } = useForm();
 
-  const [candidates, setCandidate] = useState([]);
+  const [candidates, setCandidate] = useState<[]>([]);
   const [status, setStatus] = useState<string[]>([]);
   const [roleslist, setroleappliedlist] = useState<string []>([]);
   const [skillslist, setSkill] = useState<string []>([]);
@@ -137,7 +137,7 @@ const page = () => {
                   </td>
                   <td className="text-center p-2 text-left">{item.status}</td>
                   <td className="text-center p-2">
-                    <a href={`/admin/candiates/details/${item.candidate_id}`}>
+                    <a href={`/admin/candidates/details/${item.candidate_id}`}>
                       <div className="bg-black p-2 h-8 w-8 rounded-full flex items-center justify-center">
                         <Eye className="text-white text-2xl " />
                       </div>

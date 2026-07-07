@@ -1,23 +1,6 @@
 version: '3.9'
 
 services:
-
- backend:
-  build:
-    context: ./backend
-    dockerfile: dockerfile
-  container_name: backend
-  expose:
-   - "8000"
-  networks:
-   - app-network
-  healthcheck:
-   test : ["CMD","curl","-f","http://localhost:8000/"]
-   interval : 5s
-   timeout : 5s
-   retries : 3
-
- 
  frontend_app:
   build:
     context: ./frontend
@@ -32,6 +15,25 @@ services:
     interval : 10s
     timeout : 5s
     retries : 3
+
+ backend:
+  build:
+    context: ./backend
+    dockerfile: dockerfile
+  container_name: backend
+  expose:
+   - "8000"
+  networks:
+   - app-network
+  depends_on:
+   frontend_app: 
+     condition: service_healthy
+   
+  healthcheck:
+   test : ["CMD","curl","-f","http://localhost:8000/"]
+   interval : 5s
+   timeout : 5s
+   retries : 3
 
  sqlite: 
    image: suriya08/sqlite3:1.0.3

@@ -11,6 +11,6 @@ export async function login(loginCredential: any) {
 
 
 export async function logout() {
-  const { data } = await Axios.post("auth/logout");
+  const { data } = await Axios.post("/auth/logout");
   return data.message;
 }
