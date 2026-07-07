@@ -13,8 +13,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI(lifespan=lifespan);
+
 origins = [
-    "http://http://scoring.local",
+    "http://scoring.local",
 ]
 
 app.add_middleware(

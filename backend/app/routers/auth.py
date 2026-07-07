@@ -32,7 +32,7 @@ async def login(login:Login,db:SessionDep,response: Response):
 
       if matched:
         token = await create_token({"email":user.email,"role":user.role})
-        response.set_cookie(key="token", value=token, httponly=True, secure=True, samesite="lax")
+        response.set_cookie(key="token", value=token, httponly=True, secure=False, samesite="lax")
         userResponse = []
         userResponse.append(
           LoginResponse(

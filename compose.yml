@@ -8,9 +8,14 @@ services:
     dockerfile: dockerfile
   container_name: backend
   expose:
-   - 8000
+   - "8000"
   networks:
    - app-network
+  healthcheck:
+   test : ["CMD","curl","-f","http://localhost:8000/"]
+   interval : 5s
+   timeout : 5s
+   retries : 3
 
  
  frontend_app:
@@ -19,11 +24,24 @@ services:
     dockerfile: dockerfile
   container_name : frontend
   expose:
-    - 5173
+    - "5173"
   networks:
    - app-network
+  healthcheck:
+    test: ["CMD", "node", "-e", "require('http').get('http://localhost:5173/auth/login', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"]
+    interval : 10s
+    timeout : 5s
+    retries : 3
 
- nginix:
+ sqlite: 
+   image: suriya08/sqlite3:1.0.3
+   container_name: sqlite
+   volumes:
+    - ./data:/sqlite/data
+   ports : 
+     - "8191:8191"
+
+ nginx:
   image: nginx:alpine
   container_name: nginx
   ports:
@@ -31,8 +49,10 @@ services:
   volumes:
     - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
   depends_on:
-   - backend
-   - frontend_app
+    backend:
+      condition: service_healthy
+    frontend_app: 
+      condition: service_healthy
   networks:
    - app-network
 

@@ -38,7 +38,7 @@ export const Login = () => {
      dispatch(setAuthUser(user))
    
     if(user.role == "admin"){
-      router.push("/admin/candiates")
+      router.push("/admin/candidates")
     }
 
     if(user.role == "reviewer"){

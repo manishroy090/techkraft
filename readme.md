@@ -36,19 +36,28 @@
  - Frontend on 5173
 
 
- # How to run this project (using docker)
+ # How to run this project (using docker) (recommended because of cookies based authentication)
    - docker compose build
    - docker compose up
+   - go to sudo nano /etc/hosts
+   - add 127.0.0.1 scoring.local
+
 
  # How to run this project
     #  Backend 
     - python3 venv venv on root folder of backend 
     - pip install -r requirements.txt
+    - copy .env.example to .env 
 
     # npm i 
     # npm run dev
 
  
-##  please wait will update the read me soon 
+# Credential
 
+  # admin 
+   - email : rose@gmail.com
+   - password : 9824845020@Ab
+
+ 
  

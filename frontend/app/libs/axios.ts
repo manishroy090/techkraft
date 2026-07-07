@@ -22,6 +22,6 @@ const createApi = (baseURL:any) => {
 };
 
 export const Axios = createApi(
-    "http://silveroakhospital.localhost:8000"
+    "http://scoring.local/api"
 );
 

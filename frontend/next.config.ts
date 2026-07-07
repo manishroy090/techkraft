@@ -5,12 +5,7 @@ const nextConfig = {
       beforeFiles: [
         {
           source: "/:path*",
-          has: [{ type: "host", value: "greenvally.localhost" }],
-          destination: "/:path*",
-        },
-        {
-          source: "/:path*",
-          has: [{ type: "host", value: "silveroakhospital.localhost" }],
+          has: [{ type: "host", value: "scoring.local" }],
           destination: "/:path*",
         },
       ],

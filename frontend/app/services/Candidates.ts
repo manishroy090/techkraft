@@ -3,7 +3,7 @@ import { Axios } from "@/libs/axios";
 export const getCandidates = async (filterdata={}) => {
   console.log("filterdata",filterdata)
   
-  const result = Axios.get("candidates/",{
+  const result = Axios.get("/candidates/",{
     params:{
        ...filterdata
     }
