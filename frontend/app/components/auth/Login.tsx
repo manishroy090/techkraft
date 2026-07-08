@@ -54,19 +54,34 @@ export const Login = () => {
 
   return (
     <>
-      <div className="flex justify-center items-center h-screen ">
-        <div className="flex flex-col  w-fit p-8 rounded space-y-4 shadow-md bg-slate-100">
-          <div className="flex flex-col items-center justify-center">
-            <div className="bg-blue-600 p-4 rounded">
+      <div
+        className="relative h-screen w-full flex items-center justify-center bg-cover bg-center"
+        style={{
+          backgroundImage:
+            "url('/premium_photo-1661488439548-a87936c95700-ezremove.png')",
+        }}
+      >
+        {/* overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/50 to-black/70"></div>
+
+        {/* card */}
+        <div
+          className="relative z-10 w-[360px] p-8 rounded-3xl 
+        backdrop-blur-xl bg-white/2 
+        border border-white/20 
+        shadow-2xl shadow-black/40"
+        >
+          <div className="flex flex-col items-center justify-center space-y-6">
+            <div className="bg-blue-600 p-4 rounded text-white">
               <MousePointer2 />
             </div>
-            <span>Score Candidate</span>
+            <span className="font-semibold text-xl text-gray-400">
+              Candidate Scoring
+            </span>
           </div>
-          <form
-            onSubmit={handleSubmit(onSubmit, onError)}
-            className="flex flex-col space-y-4"
-          >
-            <div className="flex flex-col space-y-2">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex flex-col space-y-4">
+              <label className="text-gray-400 text-lg">Email</label>
               <input
                 type="text"
                 placeholder="email"
@@ -79,7 +94,8 @@ export const Login = () => {
                 </p>
               )}
             </div>
-            <div className="flex flex-col space-y-2">
+            <div className="flex flex-col space-y-4">
+              <label className="text-gray-400 text-lg">Password</label>
               <input
                 type="text"
                 placeholder="password"
@@ -92,8 +108,10 @@ export const Login = () => {
                 </p>
               )}
             </div>
-            <button className="w-fit bg-blue-600 p-2 rounded text-white">
-              Login
+            <button className="w-fit bg-blue-600 p-2 rounded text-white mt-4 flex items-center justify-center space-x-2">
+              <span>Login</span>
+
+            
             </button>
           </form>
         </div>
@@ -101,4 +119,3 @@ export const Login = () => {
     </>
   );
 };
-
