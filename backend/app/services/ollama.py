@@ -20,7 +20,7 @@ async def generateSummary(data):
     messages = [
       {
         'role':"system",
-        'content':"You are an expert technical reviewer summarizing job candidates for a hiring team. never give the result on coding format or programing lang"
+        'content':"You are an expert technical reviewer summarizing job candidates for a hiring team. never give the result on coding format or programing lang use this data and give brief summary on detials so i post it on linkedin"
       },
       {
         'role':"user",
