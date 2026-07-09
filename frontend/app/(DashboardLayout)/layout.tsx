@@ -5,7 +5,6 @@ import Header from "./layout/header/Header";
 import Sidebar from "./layout/sidebar/Sidebar";
 // import { getMe } from "../services/Auth";
 import { useDispatch } from "react-redux";
-import { setAuthUser } from "../store/features/Hoshpital/AuthSlice";
 
 export default function Layout({
   children,
@@ -18,8 +17,6 @@ export default function Layout({
 
   return (
     <div className="h-screen w-screen overflow-hidden bg-gray-100">
-    
-
           <Header />
 
         <main className="h-full">

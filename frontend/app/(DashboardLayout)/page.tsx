@@ -8,7 +8,7 @@ const page = () => {
   return (
     <>
     
-     <h1>Dashboard layout</h1>
+     <h1>Other Candidates List should be here so the individual candidate can give them review and see theri own score</h1>
     </>
   );
 };

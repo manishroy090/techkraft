@@ -71,7 +71,7 @@
     "app/components/medinexus/CustomDatePicker.tsx",
     "build/types/**/*.ts",
     "build/dev/types/**/*.ts"
-, "app/(DashboardLayout)/admin/candiates/details/[id]"  ],
+, "app/(DashboardLayout)/d/candiates/details/[id]"  ],
   "exclude": [
     "node_modules"
   ]

@@ -42,7 +42,7 @@ class LoginResponse(BaseModel):
     
 class FilteRequest(BaseModel):
     skip:int = Query(0,ge=0,description="Number of record to skip")
-    limit:int= Query(2,ge=1, le=100,description="max record return")
+    limit:int= Query(2,ge=0, le=50,description="max record return")
     status:str | None= None 
     role_applied:str | None =None 
     skill:str | None =None 

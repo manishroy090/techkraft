@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Button } from "@components/medinexus/button";
+import { Button } from "@/components/button";
 import Link from 'next/link'
 import type { Metadata } from 'next'
 

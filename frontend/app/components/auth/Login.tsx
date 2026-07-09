@@ -1,7 +1,7 @@
 "use client";
 import { MousePointer2 } from "lucide-react";
 import { Loginschema } from "@schemas/Login.schema";
-import { decodeToken } from '@libs/jwt';
+import { decodeToken } from "@libs/jwt";
 import {
   useForm,
   useFieldArray,
@@ -12,14 +12,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { ILogin } from "@interface/ILogin";
 import { login } from "@/services/Auth";
 import { useRouter } from "next/navigation";
-import { setAuthUser } from "@/store/features/Hoshpital/AuthSlice";
-import { useDispatch } from "react-redux";
-
-
-
-
+import { setAuthUser, fetchAuthUser } from "@/store/features/AuthUserSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "@store/store";
+import Spinner from "@components/Spinner";
+import { useEffect, useState } from "react";
 
 export const Login = () => {
+  const [Loading, setLoading] = useState(false);
   const router = useRouter();
   const {
     register,
@@ -29,24 +29,26 @@ export const Login = () => {
     reset,
   } = useForm({ resolver: yupResolver(Loginschema) });
 
-  
-   const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>();
+  const { authUser, loading } = useSelector((state: any) => state.authUser);
 
   const onSubmit: SubmitHandler<ILogin> = async (data) => {
-    const loginData= await login(data);
-    const user = loginData[0]
-     dispatch(setAuthUser(user))
-   
-    if(user.role == "admin"){
-      router.push("/admin/candidates")
-    }
+          console.log("loading",loading)
 
-    if(user.role == "reviewer"){
-      router.push("/reviewer")
+    const { payload } = await dispatch(fetchAuthUser(data));
+    if (payload?.role == "admin") {
+      router.push("/admin");
+    } else {
+      router.push("/");
     }
-            
-   
   };
+
+  useEffect(() => {
+
+      console.log("loading",loading)
+      setLoading(loading);
+ 
+  }, [authUser]);
 
   const onError = (error: any) => {
     console.log("FORM ERROR", error);
@@ -110,8 +112,7 @@ export const Login = () => {
             </div>
             <button className="w-fit bg-blue-600 p-2 rounded text-white mt-4 flex items-center justify-center space-x-2">
               <span>Login</span>
-
-            
+              {Loading && <Spinner />}
             </button>
           </form>
         </div>

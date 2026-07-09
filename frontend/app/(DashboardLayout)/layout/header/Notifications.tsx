@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-} from '@components/medinexus/dropdown-menu'
+} from '@/components/dropdown-menu'
 
 
 const Notifications = () => {

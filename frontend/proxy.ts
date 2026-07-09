@@ -7,37 +7,18 @@ export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const accessToken = request.cookies.get("token")?.value;
 
+  // console.log("accessToken",accessToken)
+
   if (!accessToken) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 
-  const rolesRouter = {
-    admin: ["/admin"],
-    reviewer: ["/reviewer"],
-  };
-
   const { role } = decodeToken(accessToken);
 
-  if(role =="admin" && pathname =="/"){
-    return NextResponse.redirect(new URL("/admin/candiates", request.url));
 
-  }
-
-  if(role =="reviewer" && pathname =="/"){
-    return NextResponse.redirect(new URL("/reviewer", request.url));
-
-  }
-
-  type rolestypes = "admin" | "reviewer" ;
-
-  const authUserRoute = rolesRouter[role as rolestypes];
-
-  const havePermission = authUserRoute.some(
-    (prefix) => pathname === prefix || pathname.startsWith(prefix + "/"),
-  );
-
-  if (!havePermission && pathname != "/")
+  if (role !== "admin" && pathname.startsWith("/admin")) {
     return NextResponse.redirect(new URL("/403", request.url));
+  }
 
   return NextResponse.next();
 }

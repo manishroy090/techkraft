@@ -5,9 +5,11 @@ import Image from 'next/image'
 import { Icon } from '@iconify/react'
 import * as profileData from './data'
 import SimpleBar from 'simplebar-react'
-import { Button } from '@components/medinexus/button'
+import { Button } from '@/components/button'
 import { useRouter } from 'next/navigation'
-import {logout} from "@services/Auth"
+import { useDispatch } from 'react-redux'
+import { logout,logoutauth } from '@/store/features/AuthUserSlice'
+import { AppDispatch } from '@/store/store'
 
 import {
   DropdownMenu,
@@ -15,19 +17,22 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
-} from '@/components/medinexus/dropdown-menu'
+} from '@/components/dropdown-menu'
+
 
 const Profile = () => {
 
-   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>()
+  const router = useRouter()
 
-  const logoutUser =async( ) =>{
-    const log =   await logout();
-    if(log){
-       
-      router.push("/auth/login");
-    }
+
+  const handleLogout = async() =>{
+    await dispatch(logoutauth())
+    dispatch(logout())
+    router.push("/auth/login")
   }
+  
+ 
 
 
   return (
@@ -71,7 +76,7 @@ const Profile = () => {
           <DropdownMenuSeparator className='my-2' />
 
           <div className='px-4'>
-            <Button variant='outline' asChild className='w-full rounded-md'  onClick={logoutUser}>
+            <Button variant='outline' asChild className='w-full rounded-md'  onClick={handleLogout}>
               <div>Logout</div>
             </Button>
           </div>

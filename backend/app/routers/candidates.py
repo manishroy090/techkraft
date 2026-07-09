@@ -8,7 +8,7 @@ from fastapi.responses import JSONResponse
 from database import SessionDep
 from models import Score
 from schemas import SubmitScore,FilteRequest,candidateDetailResponse,SubmitScoreResponse,candiadatesResponse
-from sqlmodel import select
+from sqlmodel import select,func
 from models import User , Score,Candidate
 from services.ollama import generateSummary
 from fastapi.responses import StreamingResponse
@@ -66,6 +66,8 @@ async def reviewer(id:int,credentials: Annotated[HTTPAuthorizationCredentials, D
 @router.get("/")
 async def get_candidates(db:SessionDep,credentials: Annotated[str, Depends(verify_token)],filter:FilteRequest =Query()):
    satement = (select(Candidate,User).join(User,Candidate.user_id == User.id))
+   total_count = db.exec(select(func.count(Candidate.id)).join(User,Candidate.user_id == User.id)).one()
+
    if filter.status :
       satement= satement.where(Candidate.status==filter.status)
    if filter.keyword :
@@ -74,11 +76,17 @@ async def get_candidates(db:SessionDep,credentials: Annotated[str, Depends(verif
      satement= satement.where(Candidate.role_applied==filter.role_applied)
    if filter.skill :
       satement= satement.where(Candidate.skill.contains(filter.skill))
+   if filter.skip :
+      satement= satement.offset(filter.skip)
+   if filter.limit :
+      satement= satement.limit(filter.limit)
+       
+        
       
       # .offset(filter.skip).limit(filter.limit))
    
    results = db.exec(satement)
-   response = []
+   response = [{"pagination":{"total":total_count}}]
    for candidate, user  in results:
        response.append(
             candiadatesResponse(
@@ -88,8 +96,9 @@ async def get_candidates(db:SessionDep,credentials: Annotated[str, Depends(verif
                 role_applied=candidate.role_applied,
                 status=candidate.status,
                 candidate_id=candidate.id,
-                skill=candidate.skill
+                skill=candidate.skill,
             )
+            
         )
    return response
 

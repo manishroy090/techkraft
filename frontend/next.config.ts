@@ -1,5 +1,6 @@
 const nextConfig = {
  output: 'standalone',
+ allowedDevOrigins: ['scoring.local'],
   async rewrites() {
     return {
       beforeFiles: [
