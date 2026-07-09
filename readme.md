@@ -8,8 +8,8 @@
 
 ###  Cookies Based Authentication  ####
 - Used server side cookies base authentication so the fontend and backend need to be on same domain . 
-- I have used virtual host on my local.
-- I help to prevent from xss and csrf
+- It have used virtual host on my local.
+- It help to prevent from xss and csrf
 
 
 
@@ -36,7 +36,7 @@
  - Frontend on 5173
 
 
- # How to run this project (using docker) (recommended because of cookies based authentication)
+ # How to run this project using docker (recommended) because of cookies based authentication
    - docker compose build
    - docker compose up
    - go to sudo nano /etc/hosts
@@ -58,6 +58,12 @@
   # admin 
    - email : rose@gmail.com
    - password : 9824845020@Ab
+
+
+   
+
+   ![Alt Text](assets/candidates.png)
+
 
  
  

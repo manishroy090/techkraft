@@ -24,19 +24,26 @@ const page = () => {
   const [perpage, setPerPages] = useState<number>(20);
   const [page, setpage] = useState<number>(1);
   const [totalcandidate, setTotalCandidate] = useState<number>(0);
-  const [filterData, setFilterData] = useState<IFilter>({status:null,role_applied:null,skill:null,keyword:null,skip:0,limit:20});
+  const [filterData, setFilterData] = useState<IFilter>({
+    status: null,
+    role_applied: null,
+    skill: null,
+    keyword: null,
+    skip: 0,
+    limit: 20,
+  });
   const [callapi, setcallapi] = useState(false);
 
   useEffect(() => {
     const numberOfdatatoskp =
       totalcandidate - (totalcandidate - perpage * (page - 1));
-      setFilterData((prev) => ({
+    setFilterData((prev) => ({
       ...prev,
       skip: numberOfdatatoskp,
       limit: perpage,
-     }));
+    }));
 
-     console.log("numberOfdatatoskp",filterData)
+    console.log("numberOfdatatoskp", filterData);
 
     const getAllCandidatesDetails = async () => {
       const result = await getCandidates(filterData);
@@ -45,8 +52,6 @@ const page = () => {
       setTotalCandidate(pagination.total);
     };
 
-  
-    
     getAllCandidatesDetails();
     setcallapi(false);
   }, [callapi]);
@@ -79,7 +84,12 @@ const page = () => {
 
   const resetfilter = () => {
     reset();
-    setFilterData({skill:null,status:null,role_applied:null,keyword:null});
+    setFilterData({
+      skill: null,
+      status: null,
+      role_applied: null,
+      keyword: null,
+    });
     setcallapi((pre) => !pre);
   };
 
@@ -95,7 +105,7 @@ const page = () => {
 
   return (
     <div className="flex flex-col space-y-10 relative">
-      <div className=" ">
+      <div className="hidden ">
         <div className="flex flex-col items-center justify-center bg-blue-400 h-26 w-52 ">
           <span className="text-xl font-semibold">Total Candidates</span>
           <span className="font-semibold">{totalcandidate}</span>
@@ -157,22 +167,24 @@ const page = () => {
           </form>
         </Filter>
       </div>
-      <div className=" p-2 shadow-md bg-slate-200 rounded">
+      <div className="rounded border-t shadow-md bg-slate-200 rounded">
         <table className="w-full">
           <thead>
-            <tr>
-              <td className="text-left">Name</td>
-              <td className="text-left">Email</td>
-              <td className="text-left">Role Applied</td>
-              <td className="text-left">Status</td>
-              <td>Action</td>
+            <tr className="bg-slate-500 text-white text-xs">
+              <td className="text-left font-semibold p-2">SN</td>
+              <td className="text-left font-semibold p-2">Name</td>
+              <td className="text-left font-semibold p-2">Email</td>
+              <td className="text-left font-semibold p-2">Role Applied</td>
+              <td className="text-left font-semibold p-2">Status</td>
+              <td className="font-semibold p-2">Action</td>
             </tr>
           </thead>
 
           <tbody>
             {candidates?.length > 0 ? (
               candidates?.map((item: any, index: any) => (
-                <tr className="border-b border-gray-300" key={index}>
+                <tr className="border-b border-gray-300 text-" key={index}>
+                  <td className="text-center p-2 text-left text-bs">{index + 1}</td>
                   <td className="text-center p-2 text-left">{item?.name}</td>
                   <td className="text-center p-2 text-left">{item?.email}</td>
                   <td className="text-center p-2 text-left text-left">
@@ -181,7 +193,7 @@ const page = () => {
                   <td className="text-center p-2 text-left">{item?.status}</td>
                   <td className="text-center p-2">
                     <a href={`/admin/candidates/details/${item?.candidate_id}`}>
-                      <div className="bg-black p-2 h-8 w-8 rounded-full flex items-center justify-center">
+                      <div className="bg-neutral-700 p-2 h-8 w-8 rounded-full flex items-center justify-center">
                         <Eye className="text-white text-2xl " />
                       </div>
                     </a>
