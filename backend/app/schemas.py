@@ -35,6 +35,7 @@ class Login(BaseModel):
 class LoginResponse(BaseModel):
     message:str
     id:int
+    candidate_id:int
     email:str
     name:str
     role:str
@@ -85,8 +86,6 @@ class candidateDetailResponse(BaseModel):
         created_at:datetime
         role_applied:str
         skill:list
-        score:int
-        category:str
 
 class AiSummaryResponse(BaseModel):
     event:str

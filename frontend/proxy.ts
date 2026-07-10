@@ -16,6 +16,11 @@ export function proxy(request: NextRequest) {
   const { role } = decodeToken(accessToken);
 
 
+  if(role=="admin" && pathname.startsWith("/") && !pathname.startsWith("/admin")){
+      return NextResponse.redirect(new URL("/admin", request.url));
+  }
+
+
   if (role !== "admin" && pathname.startsWith("/admin")) {
     return NextResponse.redirect(new URL("/403", request.url));
   }

@@ -23,9 +23,9 @@ router = APIRouter(
 @router.post("/login")
 async def login(login:Login,db:SessionDep,response: Response):
    try :
-      statement = select(User).where(User.email ==login.email)
-      user =  db.exec(statement).first()
-      print(user)
+      statement = select(User,Candidate).join(Candidate,User.id ==Candidate.user_id,isouter=True).where(User.email ==login.email)
+      results =  db.exec(statement).first()
+      user,candidate  =   results
       if not user:
          raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Invalid credentials")
       matched =  await verify_password(login.password,user.hashed_password)
@@ -34,17 +34,22 @@ async def login(login:Login,db:SessionDep,response: Response):
         token = await create_token({"email":user.email,"role":user.role})
         response.set_cookie(key="token", value=token, httponly=True, secure=False, samesite="lax")
         userResponse = []
-        userResponse.append(
+      if not  hasattr(candidate ,"id") :
+         candidate_id=0
+      else :
+       candidate_id  = candidate.id 
+      userResponse.append(
           LoginResponse(
             message ="Logged in",
             id = user.id,
+            candidate_id = candidate_id,
             email = user.email,
             name = user.name,
             role =user.role,
             token=token
           )
           )
-        return userResponse
+      return userResponse
      
       raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Invalid credentials")
    except Exception as error :

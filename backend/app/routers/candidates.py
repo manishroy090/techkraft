@@ -26,8 +26,6 @@ router = APIRouter(
 )
 
 
-
-
 security_scheme = HTTPBearer()
 
 
@@ -53,7 +51,7 @@ async def reviewer(id:int,credentials: Annotated[HTTPAuthorizationCredentials, D
        statement = select(User).where(User.email ==decodeToen["email"])
        user =  db.exec(statement).first()
 
-       candidateStatement = select(Candidate).where(Candidate.user_id ==id)
+       candidateStatement = select(Candidate).where(Candidate.id ==id)
        candidate = db.exec(candidateStatement).first()
        if decodeToen["role"]== "reviewer" and user.id!=candidate.user_id:
           print(user.id)
@@ -107,11 +105,11 @@ async def get_candidates(db:SessionDep,credentials: Annotated[str, Depends(verif
 #  this endpoint is use to get candidate details
 @router.get("/{id}")
 async def get_canididate_details(id:int,authUser: Annotated[str, Depends(reviewer)],db:SessionDep):
-   satement = select(Candidate,User,Score).join(User,Candidate.user_id == User.id).join(Score,Candidate.id == Score.candidate_id).where(Candidate.id==id)
-   results = db.exec(satement)
+   satement = select(Candidate,User,Score).join(User,Candidate.user_id == User.id).join(Score,Candidate.id == Score.candidate_id,isouter=True).where(Candidate.id==id)
+   results = db.exec(satement).first()
+   candidate,user,score = results
    response = []
-   for candidate, user , score in results:
-      response.append(
+   response.append(
          candidateDetailResponse(
             user_id=user.id,
             email=user.email,
@@ -121,8 +119,6 @@ async def get_canididate_details(id:int,authUser: Annotated[str, Depends(reviewe
             role_applied=candidate.role_applied,
             skill=candidate.skill,
             status=candidate.status,
-            score=score.Score,
-            category=score.category
          )
 
       )
@@ -149,7 +145,6 @@ async def submit_score(id:int,authUser: Annotated[str, Depends(verify_token)],sc
 
      
 async def _event_generator(request:Request,data)->AsyncGenerator[dict[str,Any],None]:
-
    yield {"event":"info","data":"connected","retry":10_000}
    result =  await generateSummary(data)
    for line in  result[0]["content"]:
@@ -194,10 +189,38 @@ async def summary_generation(id:int,authUser: Annotated[str, Depends(verify_toke
 
 
 
+async def _score_generator(request:Request,data)->AsyncGenerator[dict[str,Any],None]:
+   yield {"event":"info","data":"connected","retry":10_000}
+   for sen in data :
+     if await request.is_disconnected():
+        break
+     payload : dict[str,Any] = {
+      "message":sen,
+      "time":""
+     }
+     yield  {"event":"message","data":json.dumps(payload)}
+     await asyncio.sleep(2)
+   yield {"event":"end","data":"done"}
+
+
+
 # # this end point is use to stream candidates score
 @router.get("/{id}/stream",response_class=StreamingResponse)
-async def streams_score(id:str,authUser: Annotated[str, Depends(reviewer)],db:SessionDep)  -> AsyncIterable[str]:
-   scoreStatement =  select(Score).where(Score.candidate_id==id)
-   scores = db.exec(scoreStatement).all()
-   for score in scores:
-      yield score.model_dump_json()
+async def streams_score(id:str,db:SessionDep,request:Request) -> EventSourceResponse:
+   """
+      Streams Server-Sent Events (SSE).
+      Content-Type: text/event-stream; charset=utf-8
+   """
+   statement = select(Score).where(Score.candidate_id==id)
+   results = db.exec(statement)
+   response = []
+   for result in results :
+      response.append({
+         "category":result.category,
+         "score":result.Score
+      })
+
+  
+
+   return EventSourceResponse(_score_generator(request,response),ping=15)
+

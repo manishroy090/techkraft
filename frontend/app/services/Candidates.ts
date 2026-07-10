@@ -1,4 +1,5 @@
 import { Axios } from "@/libs/axios";
+import { IScore } from "@/interface/IScore";
 
 export const getCandidates = async (filterdata={}) => {
   console.log("filterdata",filterdata)
@@ -18,6 +19,7 @@ export const getCandidates = async (filterdata={}) => {
   return result;
 };
 
+
 export const getCandidateDetails = async (id:string | number) => {
   const candidatesDetails = Axios.get(`/candidates/${id}`)
     .then((res) => {
@@ -29,6 +31,14 @@ export const getCandidateDetails = async (id:string | number) => {
 
   return candidatesDetails;
 };
+
+
+export const submitScore = async (id:string | number,body:IScore) =>{
+     return await Axios.post(`/candidates/${id}/scores`,body)
+
+}
+
+
 
 export const getAiSummaryResult = async (id:string | number | undefined,onMessage:(data:any)=>void) => {
   return Axios.post(
@@ -65,4 +75,18 @@ export const getAiSummaryResult = async (id:string | number | undefined,onMessag
  
 };
 
-const summariesContent = () => {};
+export const getScoreStream = (id:string | number) =>{
+
+    Axios.get(`/candidates/${id}/stream`,{
+      onDownloadProgress :(progressEvent) =>{
+       const response = progressEvent.event.target.response
+       const events = response.split("\r\n");
+
+       console.log("filterevent",events)
+      }
+    })
+
+}
+
+
+

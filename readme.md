@@ -3,6 +3,8 @@
 - FastApi
 - Next js
 - Type script
+- sqllite
+- nginx
 - Docker
 
 
@@ -41,6 +43,8 @@
    - docker compose up
    - go to sudo nano /etc/hosts
    - add 127.0.0.1 scoring.local
+   - for frontend scoring.local
+   - for backend scoring.local/api
 
 
  # How to run this project
@@ -65,7 +69,8 @@
    ![Alt Text](assets/datatable.png)
    ![Alt Text](assets/details.png)   
    ![Alt Text](assets/llmone.png)   
-   ![Alt Text](assets/llmtwo.png)
+   ![Alt Text](assets/candidatesdetails.png)
+   ![Alt Text](assets/othercandidates.png)
 
 
 
