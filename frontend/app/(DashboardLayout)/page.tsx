@@ -13,8 +13,9 @@ import {
 } from "@services/Candidates";
 import { useSelector } from "react-redux";
 import { ICandidaDetails } from "@/interface/Candidate";
-import { getScoreStream } from "@services/Candidates";
 import { useRouter } from "next/navigation";
+import { getCookieServer } from "@/utils/cookies";
+import { getScoreStream } from "@services/Candidates";
 
 const page = () => {
   const [candidateDetails, setCandidateDetails] = useState<any>();
@@ -33,7 +34,7 @@ const page = () => {
   const [otherCandidates, setOtherCanidates] = useState<[]>([]);
   const router = useRouter();
 
-  const showModal = (Id:string |number) => {
+  const showModal = (Id: string | number) => {
     setCandidateId(Id);
     setShowModal(true);
   };
@@ -52,13 +53,13 @@ const page = () => {
   useEffect(() => {
     const getCandidateDetail = async () => {
       const result = await getCandidateDetails(authUser?.candidate_id);
-
-      console.log("result", result);
-
       if (result.length > 0) {
         setCandidateDetails(result[0]);
       }
     };
+
+  
+   
 
     const otherCandidates = async () => {
       const getotherCandidates = await getCandidates();
@@ -77,15 +78,13 @@ const page = () => {
     callApi();
   }, [authUser]);
 
-  const onGetMessage = () => {
+  const onGetMessage = async() => {
     setCandidateScoreDetail([]);
-    const eventSource = new EventSource(
-      `http://scoring.local/api/candidates/${authUser.candidate_id}/stream`,
-    );
+    const eventSource = await getScoreStream(authUser.candidate_id)
     setLoading(true);
 
     eventSource.onmessage = (event) => {
-      const {message} = JSON.parse(event.data);
+      const { message } = JSON.parse(event.data);
       if (message) {
         setCandidateScoreDetail((prev) => [...prev, message]);
       }
@@ -95,7 +94,7 @@ const page = () => {
       console.log("EventSource failed", error);
       eventSource.close();
       setProgressInfo("Connection closed-" + JSON.stringify(error));
-        setLoading(false);
+      setLoading(false);
     };
 
     eventSource.addEventListener("end", (event) => {
@@ -110,13 +109,10 @@ const page = () => {
     };
   };
 
-
-  useEffect(()=>{
-    onGetMessage();
-
+  useEffect(() => {
   
-
-  },[])
+    onGetMessage();
+  }, []);
 
   return (
     <div className="px-30 py-8">
@@ -212,7 +208,7 @@ const page = () => {
                 </thead>
                 <tbody>
                   {otherCandidates?.length > 0 ? (
-                    otherCandidates?.map((item:any, index) => (
+                    otherCandidates?.map((item: any, index) => (
                       <tr className="p-2 border bg-slate-100" key={index}>
                         <td className="p-2">{item.name}</td>
                         <td className="p-2">{item.email}</td>

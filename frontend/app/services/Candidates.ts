@@ -1,13 +1,15 @@
 import { Axios } from "@/libs/axios";
 import { IScore } from "@/interface/IScore";
+import { getCookieServer } from "@/utils/cookies";
+import { EventSource } from "extended-eventsource";
 
-export const getCandidates = async (filterdata={}) => {
-  console.log("filterdata",filterdata)
-  
-  const result = Axios.get("/candidates/",{
-    params:{
-       ...filterdata
-    }
+export const getCandidates = async (filterdata = {}) => {
+  console.log("filterdata", filterdata);
+
+  const result = Axios.get("/candidates/", {
+    params: {
+      ...filterdata,
+    },
   })
     .then((res) => {
       return res.data;
@@ -19,8 +21,7 @@ export const getCandidates = async (filterdata={}) => {
   return result;
 };
 
-
-export const getCandidateDetails = async (id:string | number) => {
+export const getCandidateDetails = async (id: string | number) => {
   const candidatesDetails = Axios.get(`/candidates/${id}`)
     .then((res) => {
       return res.data;
@@ -32,38 +33,41 @@ export const getCandidateDetails = async (id:string | number) => {
   return candidatesDetails;
 };
 
+export const submitScore = async (id: string | number, body: IScore) => {
+  return await Axios.post(`/candidates/${id}/scores`, body);
+};
 
-export const submitScore = async (id:string | number,body:IScore) =>{
-     return await Axios.post(`/candidates/${id}/scores`,body)
-
-}
-
-
-
-export const getAiSummaryResult = async (id:string | number | undefined,onMessage:(data:any)=>void) => {
+export const getAiSummaryResult = async (
+  id: string | number | undefined,
+  onMessage: (data: any) => void,
+) => {
   return Axios.post(
     `/candidates/${id}/summary`,
     {},
     {
       onDownloadProgress: (progressEvent) => {
         const response = progressEvent.event.target.response;
-        let message ="";
+        let message = "";
         const events = response.split("\r\n");
-        const filterevent = events.filter((item:any)=>item!='data: connected' && item!='event: info' && item!='retry: 10000' && item!='')
-        if(filterevent.length>0){
-          const eventWithData = filterevent.filter((item:any)=>item.startsWith("data:"));
-            message =  eventWithData.map((item:any)=>{
-            const data = item.replace("data:","")
-            const parsed = JSON.parse(data)
+        const filterevent = events.filter(
+          (item: any) =>
+            item != "data: connected" &&
+            item != "event: info" &&
+            item != "retry: 10000" &&
+            item != "",
+        );
+        if (filterevent.length > 0) {
+          const eventWithData = filterevent.filter((item: any) =>
+            item.startsWith("data:"),
+          );
+          message = eventWithData.map((item: any) => {
+            const data = item.replace("data:", "");
+            const parsed = JSON.parse(data);
             onMessage(parsed);
-           
-          })
-          
+          });
         }
 
-        return message
-     
-   
+        return message;
       },
     },
   )
@@ -71,22 +75,27 @@ export const getAiSummaryResult = async (id:string | number | undefined,onMessag
       console.log("res", res);
     })
     .catch((error) => {});
-
- 
 };
 
-export const getScoreStream = (id:string | number) =>{
-
-    Axios.get(`/candidates/${id}/stream`,{
-      onDownloadProgress :(progressEvent) =>{
-       const response = progressEvent.event.target.response
-       const events = response.split("\r\n");
-
-       console.log("filterevent",events)
-      }
-    })
-
-}
+export const getScoreStream = async(id: string | number) => {
 
 
+  const getToken = async () => {
+    return await getCookieServer("token");
+  };
 
+  const token = await getToken();
+
+  const eventSource = new EventSource(
+    `http://scoring.local/api/candidates/${id}/stream`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      retry: 3000,
+    },
+  );
+
+
+  return  eventSource
+};

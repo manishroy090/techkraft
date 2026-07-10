@@ -206,7 +206,7 @@ async def _score_generator(request:Request,data)->AsyncGenerator[dict[str,Any],N
 
 # # this end point is use to stream candidates score
 @router.get("/{id}/stream",response_class=StreamingResponse)
-async def streams_score(id:str,db:SessionDep,request:Request) -> EventSourceResponse:
+async def streams_score(id:str,authUser: Annotated[str, Depends(verify_token)],db:SessionDep,request:Request) -> EventSourceResponse:
    """
       Streams Server-Sent Events (SSE).
       Content-Type: text/event-stream; charset=utf-8

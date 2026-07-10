@@ -6,6 +6,7 @@ import { getCandidateDetails } from "@services/Candidates";
 import { useScroll } from "framer-motion";
 import { ICandidaDetails } from "@/interface/Candidate";
 import { MoveUp, CardSim } from "lucide-react";
+import { getScoreStream } from "@services/Candidates";
 
 const page = () => {
   const params = useParams<{ id: string }>();
@@ -13,13 +14,11 @@ const page = () => {
   const [candidateScoreDetails, setCandidateScoreDetail] = useState<ICandidaDetails[]>([]);
   const [Loading, setLoading] = useState(false);
   const [progressInfo, setProgressInfo] = useState<string>();
-
+  
   const { id } = params;
 
-    const onGetMessage = () => {
-    const eventSource = new EventSource(
-      `http://scoring.local/api/candidates/${id}/stream`,
-    );
+    const onGetMessage = async() => {
+    const eventSource = await getScoreStream(id)
     setLoading(true);
 
     eventSource.onmessage = (event) => {
@@ -45,6 +44,7 @@ const page = () => {
 
     eventSource.onopen = () => {
       setProgressInfo("connection opened");
+      
     };
   };
 
@@ -56,8 +56,9 @@ const page = () => {
         setCandidateDetails(result[0]);
       }
     };
+ 
+      onGetMessage();
 
-    onGetMessage();
     getCandidateDetail();
   }, []);
 
