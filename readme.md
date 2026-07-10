@@ -6,6 +6,7 @@
 - sqllite
 - nginx
 - Docker
+- Tailwind
 
 
 ###  Cookies Based Authentication  ####
@@ -47,7 +48,7 @@
    - for backend scoring.local/api
 
 
- # How to run this project
+ # How to run this project without using docker
     #  Backend 
     - python3 venv venv on root folder of backend 
     - pip install -r requirements.txt
